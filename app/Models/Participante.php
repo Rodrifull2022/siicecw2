@@ -11,7 +11,7 @@ class Participante extends Model
     //protected $guarded=['id'];
     protected $table='PARTICIPANTE';
     protected $primaryKey='IDPARTICIPANTE';
-    protected $fillable = ['IDTIPOIDENTIFICACION','pais','provincia','NOMBRE_COMPLETO','ciudad','CALLE_PRINCIPAL','NUMERO_DOMICILIO', 'CALLE_TRANSVERSAL','REFERENCIA','direccion2','TELEFONO_CASA','TELEFONO_OFICNA','EXT_TELOFICINA','TELEFONO_CELULAR'];
+    protected $fillable = ['IDTIPOIDENTIFICACION','pais','provincia','NOMBRE_COMPLETO','ciudad','CALLE_PRINCIPAL','NUMERO_DOMICILIO', 'CALLE_TRANSVERSAL','REFERENCIA','DIRECCION','TELEFONO_CASA','TELEFONO_OFICNA','EXT_TELOFICINA','TELEFONO_CELULAR'];
     public $timestamps = false;
     //protected $dateFormat = 'Y-d-m H:i:s';
    use HasFactory;

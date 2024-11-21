@@ -5,7 +5,7 @@
     <div class="container" style="max-width:100%">
 
         <div class="card">
-            <div class="card-header"><h4>Administración de Personas</h4></div>
+            <div class="card-header"><h4>Administración de Personas en "branch direccion"</h4></div>
             <div class="card-body">
 
                 {{ $dataTable->table()}}
@@ -296,7 +296,7 @@
                             </div>
                             <div class="col-sm-4 invoice-col">
                                 <label for="text">Dirección</label>
-                                <input type="text" class="form-control" id="direccion2" name="direccion2" readonly required>
+                                <input type="text" class="form-control" id="DIRECCION" name="DIRECCION" readonly required>
                             </div>
                             <div class="col-sm-4 invoice-col">
                                 <label for="text">Telf. Casa</label>
@@ -894,7 +894,7 @@
                                 </div>
                                 <div class="col-sm-4 invoice-col">
                                     <label for="text">Dirección</label>
-                                    <input type="text" class="form-control" value="{{ $participante->DIRECCION }}" id="direccion2" required>
+                                    <input type="text" class="form-control" value="{{ $participante->DIRECCION }}" id="DIRECCION" required>
                                 </div>
                                 <div class="col-sm-4 invoice-col">
                                     <label for="text">Telf. Casa</label>
@@ -1180,28 +1180,40 @@
 ////* agregado RP
 
 // Función para manejar la visibilidad y validación de los campos
-        function toggleDiscapacidadFields() {
+document.addEventListener('DOMContentLoaded', function() {
+    const direccionInput = document.getElementById('DIRECCION');
+    const callePrincipalInput = document.getElementById('CALLE_PRINCIPAL');
+    const numeroDomicilioInput = document.getElementById('NUMERO_DOMICILIO');
+    const calleTransversalInput = document.getElementById('CALLE_TRANSVERSAL');
 
-                const tieneDiscapacidad = $('#discapacidad').is(':checked');
-                const carnetField = $('#CARNET_NUM_CONADIS');
-                const porcentajeField = $('#IND_DISCAPACIDAD');
+    function actualizarDireccion() {
+        const callePrincipal = callePrincipalInput.value.trim();
+        const numeroDomicilio = numeroDomicilioInput.value.trim();
+        const calleTransversal = calleTransversalInput.value.trim();
 
-                // Habilitar/deshabilitar campos
-                carnetField.prop('disabled', !tieneDiscapacidad);
-                porcentajeField.prop('disabled', !tieneDiscapacidad);
+        let direccionCompleta = callePrincipal;
+        
+        if (numeroDomicilio) {
+            direccionCompleta += (direccionCompleta ? ' ' : '') + numeroDomicilio;
+        }
+        
+        if (calleTransversal) {
+            direccionCompleta += (direccionCompleta ? ' y ' : '') + calleTransversal;
+        }
 
-                // Limpiar campos si se desmarca el checkbox
-                if (!tieneDiscapacidad) {
-                    carnetField.val('');
-                    porcentajeField.val('');
-                    // Remover clases de validación si existen
-                    carnetField.removeClass('is-invalid');
-                    porcentajeField.removeClass('is-invalid');
-                }
-            }
+        direccionInput.value = direccionCompleta;
+    }
 
-            // Ejecutar al cargar la página
-            toggleDiscapacidadFields();
+    // Agregar evento blur (pérdida de foco) a cada campo
+    callePrincipalInput.addEventListener('blur', actualizarDireccion);
+    numeroDomicilioInput.addEventListener('blur', actualizarDireccion);
+    calleTransversalInput.addEventListener('blur', actualizarDireccion);
+
+    // También podemos agregar el evento change para capturar cambios por selección
+    callePrincipalInput.addEventListener('change', actualizarDireccion);
+    numeroDomicilioInput.addEventListener('change', actualizarDireccion);
+    calleTransversalInput.addEventListener('change', actualizarDireccion);
+});
 
             // Ejecutar cuando cambie el checkbox
             $('#discapacidad').change(toggleDiscapacidadFields);
