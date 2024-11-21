@@ -5,7 +5,7 @@
     <div class="container" style="max-width:100%">
 
         <div class="card">
-            <div class="card-header"><h4>Administración de Personas</h4></div>
+            <div class="card-header"><h4>Administración de Personas "rama estilos"</h4></div>
             <div class="card-body">
 
                 {{ $dataTable->table()}}
