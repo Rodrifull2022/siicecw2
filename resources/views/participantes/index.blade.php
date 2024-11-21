@@ -5,7 +5,7 @@
     <div class="container" style="max-width:100%">
 
         <div class="card">
-            <div class="card-header"><h4>Administración de Personas en "branch direccion"</h4></div>
+            <div class="card-header"><h4>Administración de Personas</h4></div>
             <div class="card-body">
 
                 {{ $dataTable->table()}}
@@ -338,7 +338,7 @@
                             <legend style="font-size: 12px; font-weight: bold;">IINFORMACIÓN DEL AUTOMOTOR DEL CLIENTE </legend>
                             <div class="row invoice-info">
                                 <div class="col-sm-4 invoice-col">
-                                    <label for="text">Placa</label>
+                                    <label for="text">Placas</label>
                                     <div class="input-group-prepend">
                                         <input class="form-control" type="text" name="PLACA_AUTO" id="PLACA_AUTO"  value="{{ old('PLACA_AUTO') }}">
                                         <span id="PLACA_AUTOError" class="text-danger error-messages"></span>
@@ -1215,10 +1215,7 @@ document.addEventListener('DOMContentLoaded', function() {
     calleTransversalInput.addEventListener('change', actualizarDireccion);
 });
 
-            // Ejecutar cuando cambie el checkbox
-            $('#discapacidad').change(toggleDiscapacidadFields);
-
-
+            
             function toggleNumSticker() {
                 const stickerValue = $('#STICKER').val();
                 const numStickerField = $('#NUM_STICKER');
@@ -1309,6 +1306,12 @@ const getDatePickerTitle = elem => {
    <!--agregados RP-->
  <script>
 $(document).ready(function() {
+
+     // Convertir a mayúsculas solo los inputs type="text", excluyendo el email
+    $('input[type="text"]').not('#EMAIL').on('input', function() {
+        $(this).val($(this).val().toUpperCase());
+    });
+
     $('#ID_PAIS').change(function() {
         var paisId = $(this).val();
         if(paisId) {

@@ -85,9 +85,50 @@ class ParticipanteController extends Controller
         'TELEFONO_CELULAR' => 'max:10',
         'EXT_TELOFICINA' => ' max:9',
         'REFERENCIA' => 'max:50',
+        'PLACA_AUTO' => [
+            'nullable',
+            'min:7',
+            'max:8',
+            'regex:/^(?:[A-Z]{2}-[0-9]{4,5}|[A-Z]{3}-[0-9]{4})$/', // Formatos: AA-12345, AA-1234, ABC-1234
+        ],
         //'ID_NOMBREFACTURA' => ['required', 'not_in:0,""', 'exists:PARTICIPANTE,ID_NOMBREFACTURA'],
         'IDEMPRESA' => ['not_in:0,""', 'exists:EMPRESA,IDEMPRESA'],
         
+    ], [
+        'NOMBRE_COMPLETO.required' => ' El nombre completo es obligatorio',
+        'NOMBRE_COMPLETO.min' => ' El nombre completo debe tener al menos 2 caracteres',
+        'NOMBRE_COMPLETO.max' => ' El nombre completo no puede tener más de 55 caracteres',
+        
+        'TITULOP.min' => ' El título debe tener al menos 2 caracteres',
+        'TITULOP.max' => ' El título no puede tener más de 13 caracteres',
+        
+        'EDAD.numeric' => ' La edad debe ser un número',
+        'EDAD.digits_between' => ' La edad debe tener entre 1 y 3 dígitos',
+        
+        'EMAIL.required' => ' El correo electrónico es obligatorio',
+        'EMAIL.email' => ' El correo electrónico debe ser una dirección válida',
+        'EMAIL.max' => ' El correo electrónico no puede tener más de 55 caracteres',
+        
+        'ID_PAIS.exists' => ' El país seleccionado no es válido',
+        
+        'CALLE_PRINCIPAL.max' => ' La calle principal no puede tener más de 24 caracteres',
+        'NUMERO_DOMICILIO.max' => ' El número de domicilio no puede tener más de 8 caracteres',
+        'CALLE_TRANSVERSAL.max' => ' La calle transversal no puede tener más de 23 caracteres',
+        
+        'TELEFONO_CASA.max' => ' El teléfono de casa no puede tener más de 9 caracteres',
+        'TELEFONO_OFICNA.max' => ' El teléfono de oficina no puede tener más de 15 caracteres',
+        'TELEFONO_CELULAR.max' => ' El teléfono celular no puede tener más de 10 caracteres',
+        'EXT_TELOFICINA.max' => ' La extensión no puede tener más de 9 caracteres',
+        
+        'REFERENCIA.max' => ' La referencia no puede tener más de 50 caracteres',
+        
+        'PLACA_AUTO.min' => ' La placa debe tener mínimo 7 caracteres',
+        'PLACA_AUTO.max' => ' La placa debe tener máximo 8 caracteres',
+        'PLACA_AUTO.regex' => ' La placa debe tener uno de estos formatos: AA-1234, AA-12345 o ABC-1234',
+        
+        'IDEMPRESA.not_in' => ' Debe seleccionar una empresa',
+        'IDEMPRESA.exists' => ' La empresa seleccionada no es válida',
+   
     ]);
     
     // Validaciones condicionales
@@ -95,16 +136,16 @@ class ParticipanteController extends Controller
     $validator->sometimes('CARNET_NUM_CONADIS', 'required|numeric|digits_between:1,13', function ($input) {
         return $input->discapacidad == 1;
     }, [
-        'CARNET_NUM_CONADIS.required' => 'El número de carnet CONADIS es obligatorio',
-        'CARNET_NUM_CONADIS.numeric' => 'El número de carnet debe contener solo números',
-        'CARNET_NUM_CONADIS.digits_between' => 'El número de carnet debe tener entre 1 y 13 dígitos'
+        'CARNET_NUM_CONADIS.required' => ' El número de carnet CONADIS es obligatorio',
+        'CARNET_NUM_CONADIS.numeric' => ' El número de carnet debe contener solo números',
+        'CARNET_NUM_CONADIS.digits_between' => ' El número de carnet debe tener entre 1 y 13 dígitos'
     ]);
     
     $validator->sometimes('IND_DISCAPACIDAD', 'required|numeric|digits_between:1,13', function ($input) {
         return $input->discapacidad == 1;
     }, [
-        'IND_DISCAPACIDAD.required' => 'El porcentaje de discapacidad es obligatorio',
-        'IND_DISCAPACIDAD.numeric' => 'El porcentaje debe ser un número',
+        'IND_DISCAPACIDAD.required' => ' El porcentaje de discapacidad es obligatorio',
+        'IND_DISCAPACIDAD.numeric' => ' El porcentaje debe ser un número',
         'IND_DISCAPACIDAD.digits_between' => 'El porcentaje debe tener entre 1 y 13 dígitos'
     ]);
 
