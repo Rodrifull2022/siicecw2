@@ -1452,12 +1452,26 @@ function clearErrors() {
         });
     }
 
+
     $('#saveBtn').click(function(e) {
         e.preventDefault();
         $(this).html('Guardando...');
         $(this).attr('disabled', true);
 
         clearErrors(); // Limpiar errores previos
+
+     // Función para contar errores
+    function contarErroresTab(campos) {
+        let contador = 0;
+        campos.forEach(campo => {
+            if($('#' + campo + 'Error').text().trim() !== '') {
+                contador++;
+            }
+        });
+        return contador;
+    }
+
+
         
         var formDatos = document.getElementById('ajaxFormDatos');
         var formData = new FormData(formDatos);
