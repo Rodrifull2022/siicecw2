@@ -5,7 +5,7 @@
     <div class="container" style="max-width:100%">
 
         <div class="card">
-            <div class="card-header"><h4>Administración de Personas "rama estilos"</h4></div>
+            <div class="card-header"><h4>Administración de Personas "rama estilos validaciones aprobadas"</h4></div>
             <div class="card-body">
 
                 {{ $dataTable->table()}}
@@ -1451,6 +1451,17 @@ document.addEventListener('DOMContentLoaded', function() {
             $('#' + field + 'Error').text(messages[0]);
         });
     }
+    function restaurarTabs() {
+        $('.nav-tabs .nav-link').each(function() {
+            // Mantener la clase active si ya la tiene
+            let isActive = $(this).hasClass('active');
+            $(this).removeClass('tab-error');
+            $(this).find('.error-count').remove();
+            if (isActive) {
+                $(this).addClass('active');
+            }
+        });
+    }
 
      // Agrupar campos por tab
     const camposPorTab = {
@@ -1466,6 +1477,8 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         $(this).html('Guardando...');
         $(this).attr('disabled', true);
+
+        restaurarTabs();
 
         clearErrors(); // Limpiar errores previos
 
