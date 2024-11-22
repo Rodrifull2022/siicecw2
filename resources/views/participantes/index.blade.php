@@ -1438,7 +1438,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 <script>
-function clearErrors() {
+    function clearErrors() {
         $('.error-messages').text('');
         $('input, select, textarea').removeClass('error-input');
     }
@@ -1451,6 +1451,15 @@ function clearErrors() {
             $('#' + field + 'Error').text(messages[0]);
         });
     }
+
+     // Agrupar campos por tab
+    const camposPorTab = {
+        'informacion': ['NOMBRE_COMPLETO', 'TITULOP', 'EMAIL', 'FECHA_NAC', 'EDAD', 'ID_DEFET', 'ID_GEN', 'ID_NACIONALIDAD', 'ID_MOVILH'],
+        'dato_ubicacion': ['ID_PAIS', 'CALLE_PRINCIPAL', 'NUMERO_DOMICILIO', 'CALLE_TRANSVERSAL', 'TELEFONO_CASA', 'TELEFONO_OFICNA', 'TELEFONO_CELULAR', 'NUM_STICKER'],
+        'tipo_cliente': ['TIPOCLIENTE', 'FACULTAD', 'CARRERA_EPN'],
+        'dato_familiar': ['IDREP', 'ID_PARTICIPANTE_CONYUGE', 'ID_PARTICIPANTE_HERMANO'],
+        'facturacion': ['ID_NOMBREFACTURA', 'IDEMPRESA']
+    };
 
 
     $('#saveBtn').click(function(e) {
@@ -1528,11 +1537,7 @@ function clearErrors() {
         });
     });
 
-    // Limpiar errores cuando el usuario comience a escribir
-    $('input, select, textarea').on('input change', function() {
-        $(this).removeClass('error-input');
-        $('#' + $(this).attr('id') + 'Error').text('');
-    });
+   
 
 </script>
 
