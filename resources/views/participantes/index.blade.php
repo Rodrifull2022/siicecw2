@@ -1133,6 +1133,25 @@
     .tab-normal {
         background-color: #007bff !important; /* Azul normal */
     }
+
+     /* Estilo para inputs con error */
+     .error-input {
+        border: 1px solid #dc3545 !important;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+    }
+
+    /* Estilo para el mensaje de error */
+    .text-danger {
+        color: #dc3545;
+        font-size: 0.875em;
+        margin-top: 0.25rem;
+    }
+
+    /* Estilo para el ícono de error (opcional) */
+    .error-input:focus {
+        border-color: #dc3545 !important;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+    }
 </style>
 @stop
 
@@ -1307,6 +1326,28 @@ const getDatePickerTitle = elem => {
  <script>
 $(document).ready(function() {
 
+    function clearErrors() {
+        $('.error-messages').text('');
+        $('input, select, textarea').removeClass('error-input');
+    }
+
+    // Función para mostrar errores
+    function showErrors(errors) {
+        clearErrors();
+        $.each(errors, function(field, messages) {
+            // Agregar clase de error al input
+            $('#' + field).addClass('error-input');
+            // Mostrar mensaje de error
+            $('#' + field + 'Error').text(messages[0]);
+        });
+    }
+
+    $('input, select, textarea').on('input change', function() {
+        $(this).removeClass('error-input');
+        $('#' + $(this).attr('id') + 'Error').text('');
+    });
+
+
      // Convertir a mayúsculas solo los inputs type="text", excluyendo el email
     $('input[type="text"]').not('#EMAIL').on('input', function() {
         $(this).val($(this).val().toUpperCase());
@@ -1398,7 +1439,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <script>
  var formDatos =$('#ajaxFormDatos')[0];
-            $('#saveBtn').click(function(){
+     $('#saveBtn').click(function(){
                 $('#saveBtn').html('Guardando...');
                 $('#saveBtn').attr('disabled', true);
                 $('.error-messages').html('');
@@ -1539,6 +1580,25 @@ document.addEventListener('DOMContentLoaded', function() {
                             $('#ID_PARTICIPANTE_CONYUGEError').html(error.responseJSON.errors.ID_PARTICIPANTE_CONYUGE);
                             $('#ID_PARTICIPANTE_HERMANOError').html(error.responseJSON.errors.ID_PARTICIPANTE_HERMANO);
                         }
+
+                        if(error.status === 422) {
+                        showErrors(error.responseJSON.errors);
+                        
+                        // Revisar cada tab para errores
+                        Object.entries(camposPorTab).forEach(([tabId, campos]) => {
+                            let numErrores = contarErroresTab(campos);
+                            
+                            if(numErrores > 0) {
+                                let tabLink = $(`a[href="#${tabId}"]`);
+                                tabLink.removeClass('tab-normal').addClass('tab-error');
+                                tabLink.append(
+                                    `<span class="error-count" style="color: white; font-size: 12px;">
+                                        <sub>(${numErrores})</sub>
+                                    </span>`
+                                );
+                            }
+                        });
+                    }
                     }
                 });
       ///////
