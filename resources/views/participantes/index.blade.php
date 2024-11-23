@@ -5,7 +5,7 @@
     <div class="container" style="max-width:100%">
 
         <div class="card">
-            <div class="card-header"><h4>Administración de Personas "rama estilos validaciones aprobadas"</h4></div>
+            <div class="card-header"><h4>Administración de Personas </h4></div>
             <div class="card-body">
 
                 {{ $dataTable->table()}}
@@ -373,7 +373,7 @@
                                 </div>
                                 <div class="col-sm-4 invoice-col">
                                     <label for="text">N°.</label>
-                                    <input class="form-control" type="text" name="NUM_STICKER" id="NUM_STICKER"  value="{{ old('NUM_STICKER') }}">
+                                    <input class="form-control" type="text" name="NUM_STICKER" id="NUM_STICKER"  value="{{ old('NUM_STICKER') }}" disabled>
                                     <span id="NUM_STICKERError" class="text-danger error-messages"></span>
                                 </div>
                                 <div class="col-sm-4 invoice-col">
@@ -1466,7 +1466,7 @@ document.addEventListener('DOMContentLoaded', function() {
      // Agrupar campos por tab
     const camposPorTab = {
         'informacion': ['NOMBRE_COMPLETO', 'TITULOP', 'EMAIL', 'FECHA_NAC', 'EDAD', 'ID_DEFET', 'ID_GEN', 'ID_NACIONALIDAD', 'ID_MOVILH'],
-        'dato_ubicacion': ['ID_PAIS', 'CALLE_PRINCIPAL', 'NUMERO_DOMICILIO', 'CALLE_TRANSVERSAL', 'TELEFONO_CASA', 'TELEFONO_OFICNA', 'TELEFONO_CELULAR', 'NUM_STICKER'],
+        'dato_ubicacion': ['ID_PAIS', 'CALLE_PRINCIPAL', 'NUMERO_DOMICILIO', 'CALLE_TRANSVERSAL', 'TELEFONO_CASA', 'TELEFONO_OFICNA', 'TELEFONO_CELULAR', 'NUM_STICKER', 'PLACA_AUTO', 'NUM_STICKER'],
         'tipo_cliente': ['TIPOCLIENTE', 'FACULTAD', 'CARRERA_EPN'],
         'dato_familiar': ['IDREP', 'ID_PARTICIPANTE_CONYUGE', 'ID_PARTICIPANTE_HERMANO'],
         'facturacion': ['ID_NOMBREFACTURA', 'IDEMPRESA']
@@ -1532,12 +1532,12 @@ document.addEventListener('DOMContentLoaded', function() {
                             $('#IND_DISCAPACIDAD').val('');
                             $('#ACEPTACION_DP').prop('checked', false).trigger('change');
                             $('#OBSERVACIONES').val('');
-                         //Parte RP  PESTAÑAS *DATOS DE UBICACION* , *TIPO CLIENTE* Y *AUTORIZACIONES*
+                            $('#ID_PAIS').val('0').trigger('change');
                             $('#CALLE_PRINCIPAL').val(''); // los campos del formulario dben tener el mismo nombre que en la tabla de la BDD porque luego no funcionan las validaciones bien
                             $('#NUMERO_DOMICILIO').val('');
                             $('#CALLE_TRANSVERSAL').val('');
                             $('#REFERENCIA').val('');
-                            $('#direccion2').val('');
+                            $('#DIRECCION').val('');
                             $('#TELEFONO_CASA').val('');
                             $('#TELEFONO_OFICNA').val('');
                             $('#EXT_TELOFICINA').val('');
@@ -1555,6 +1555,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             $('#MARCA_AUTO').val('');
                             $('#NUM_STICKER').val('');
                             $('#STICKER').val('0').trigger('change');
+                            $('#NUM_STICKER').prop('disabled', true);
                             $('#convenio').val('0').trigger('change');
                             $('#DESBLOQUEO_TERCERA_MATRICULA').prop('checked', false).trigger('change');
                             $('#DESBLOQUEO_CONDICION').prop('checked', false).trigger('change');

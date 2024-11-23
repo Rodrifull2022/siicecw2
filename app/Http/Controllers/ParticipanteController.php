@@ -125,6 +125,11 @@ class ParticipanteController extends Controller
         'PLACA_AUTO.min' => ' La placa debe tener mínimo 7 caracteres',
         'PLACA_AUTO.max' => ' La placa debe tener máximo 8 caracteres',
         'PLACA_AUTO.regex' => ' La placa debe tener uno de estos formatos: AA-1234, AA-12345 o ABC-1234',
+
+        'NUM_STICKER.numeric' =>  ' La sticker debe ser un número',
+        'NUM_STICKER.min' => ' El sticker no puede tener menos de 5 caracteres',
+        'NUM_STICKER.max' => ' El sticker  no puede tener más de 5 caracteres',
+        'NUM_STICKER.digits_between' => ' El sticker  no debe tener  5 caracteres',
         
         'IDEMPRESA.not_in' => ' Debe seleccionar una empresa',
         'IDEMPRESA.exists' => ' La empresa seleccionada no es válida',
@@ -317,7 +322,7 @@ class ParticipanteController extends Controller
 
     public function update(Request $request, $IDPARTICIPANTE)
     {
-        dd("entre");
+        
         $request->validate([
             
             'IDENTIFICACION' => 'required',
