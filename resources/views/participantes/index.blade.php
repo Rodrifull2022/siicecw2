@@ -1482,6 +1482,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         clearErrors(); // Limpiar errores previos
 
+        
+
      // Función para contar errores
     function contarErroresTab(campos) {
         let contador = 0;
