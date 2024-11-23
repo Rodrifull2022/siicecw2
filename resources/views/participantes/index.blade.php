@@ -5,7 +5,7 @@
     <div class="container" style="max-width:100%">
 
         <div class="card">
-            <div class="card-header"><h4>Administración de Personas</h4></div>
+            <div class="card-header"><h4>Administración de Personas "rama estilos validaciones aprobadas"</h4></div>
             <div class="card-body">
 
                 {{ $dataTable->table()}}
@@ -1133,6 +1133,25 @@
     .tab-normal {
         background-color: #007bff !important; /* Azul normal */
     }
+
+     /* Estilo para inputs con error */
+     .error-input {
+        border: 1px solid #dc3545 !important;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+    }
+
+    /* Estilo para el mensaje de error */
+    .text-danger {
+        color: #dc3545;
+        font-size: 0.875em;
+        margin-top: 0.25rem;
+    }
+
+    /* Estilo para el ícono de error (opcional) */
+    .error-input:focus {
+        border-color: #dc3545 !important;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+    }
 </style>
 @stop
 
@@ -1307,6 +1326,28 @@ const getDatePickerTitle = elem => {
  <script>
 $(document).ready(function() {
 
+    function clearErrors() {
+        $('.error-messages').text('');
+        $('input, select, textarea').removeClass('error-input');
+    }
+
+    // Función para mostrar errores
+    function showErrors(errors) {
+        clearErrors();
+        $.each(errors, function(field, messages) {
+            // Agregar clase de error al input
+            $('#' + field).addClass('error-input');
+            // Mostrar mensaje de error
+            $('#' + field + 'Error').text(messages[0]);
+        });
+    }
+
+    $('input, select, textarea').on('input change', function() {
+        $(this).removeClass('error-input');
+        $('#' + $(this).attr('id') + 'Error').text('');
+    });
+
+
      // Convertir a mayúsculas solo los inputs type="text", excluyendo el email
     $('input[type="text"]').not('#EMAIL').on('input', function() {
         $(this).val($(this).val().toUpperCase());
@@ -1397,28 +1438,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 <script>
- var formDatos =$('#ajaxFormDatos')[0];
-            $('#saveBtn').click(function(){
-                $('#saveBtn').html('Guardando...');
-                $('#saveBtn').attr('disabled', true);
-                $('.error-messages').html('');
+    function clearErrors() {
+        $('.error-messages').text('');
+        $('input, select, textarea').removeClass('error-input');
+    }
 
-
-     // Limpiar errores anteriores
-     $('.error-count').remove();
-    $('.menu nav-link').removeClass('tab-error').addClass('tab-normal');
-    
-    // Función para contar errores
-    function contarErroresTab(campos) {
-        let contador = 0;
-        campos.forEach(campo => {
-            if($('#' + campo + 'Error').text().trim() !== '') {
-                contador++;
+    // Función para mostrar errores
+    function showErrors(errors) {
+        clearErrors();
+        $.each(errors, function(field, messages) {
+            $('#' + field).addClass('error-input');
+            $('#' + field + 'Error').text(messages[0]);
+        });
+    }
+    function restaurarTabs() {
+        $('.nav-tabs .nav-link').each(function() {
+            // Mantener la clase active si ya la tiene
+            let isActive = $(this).hasClass('active');
+            $(this).removeClass('tab-error');
+            $(this).find('.error-count').remove();
+            if (isActive) {
+                $(this).addClass('active');
             }
         });
-        return contador;
     }
-    // Agrupar campos por tab
+
+     // Agrupar campos por tab
     const camposPorTab = {
         'informacion': ['NOMBRE_COMPLETO', 'TITULOP', 'EMAIL', 'FECHA_NAC', 'EDAD', 'ID_DEFET', 'ID_GEN', 'ID_NACIONALIDAD', 'ID_MOVILH'],
         'dato_ubicacion': ['ID_PAIS', 'CALLE_PRINCIPAL', 'NUMERO_DOMICILIO', 'CALLE_TRANSVERSAL', 'TELEFONO_CASA', 'TELEFONO_OFICNA', 'TELEFONO_CELULAR', 'NUM_STICKER'],
@@ -1428,25 +1473,50 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
 
-                var formData = new FormData(formDatos);
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url:'{{ route ("participantes.store") }}',
-                    method: 'POST',
-                    processData: false,
-                    contentType: false,
-                    data: formData,
+    $('#saveBtn').click(function(e) {
+        e.preventDefault();
+        $(this).html('Guardando...');
+        $(this).attr('disabled', true);
 
-                    success: function(response){
-                        $('#saveBtn').attr('disabled', false);
-                        $('#saveBtn').html('Guardar participante');
+        restaurarTabs();
 
-                        //parte de LM
-                            $('#idtipoidentificacion').val('0').trigger('change');
+        clearErrors(); // Limpiar errores previos
+
+        
+
+     // Función para contar errores
+    function contarErroresTab(campos) {
+        let contador = 0;
+        campos.forEach(campo => {
+            if($('#' + campo + 'Error').text().trim() !== '') {
+                contador++;
+            }
+        });
+        return contador;
+    }
+
+
+        
+        var formDatos = document.getElementById('ajaxFormDatos');
+        var formData = new FormData(formDatos);
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            url: '{{ route ("participantes.store") }}',
+            method: 'POST',
+            processData: false,
+            contentType: false,
+            data: formData,
+            success: function(response) {
+                $('#saveBtn').attr('disabled', false);
+                $('#saveBtn').html('Guardar participante');
+
+                $('#idtipoidentificacion').val('0').trigger('change');
                             $('#IDENTIFICACION').val('');
                             $('#NOMBRE_COMPLETO').val('');
                             $('#TITULOP').val('');
@@ -1491,88 +1561,42 @@ document.addEventListener('DOMContentLoaded', function() {
                             $('#DESBLOQUEO_DOS_NIVELES').prop('checked', false).trigger('change');
                             $('#DESBLOQUEO_REAGENDAMIENTO_EXAMEN').prop('checked', false).trigger('change');
 
-                        if(response.success){
-                            swal("Registrado guardado", response.success, "success");
-                        }
-                        if(response.warning){
-                            swal("Atención", response.warning, "warning");
-                        }
-                        tabla_empresa.ajax.reload( null, false );
-                    },
-                    error: function(error){
-                        if(error){
-                            $('#saveBtn').attr('disabled', false);
-                            $('#saveBtn').html('Guardar');
-                            $('#idtipoidentificacionError').html(error.responseJSON.errors.idtipoidentificacion);
-                            $('#IDENTIFICACIONError').html(error.responseJSON.errors.IDENTIFICACION);
-                            $('#NOMBRE_COMPLETOError').html(error.responseJSON.errors.NOMBRE_COMPLETO);
-                            $('#TITULOPError').html(error.responseJSON.errors.TITULOP);
-                            $('#FECHA_NACError').html(error.responseJSON.errors.FECHA_NAC);
-                            $('#EDADError').html(error.responseJSON.errors.EDAD);
-                            $('#EMAILError').html(error.responseJSON.errors.EMAIL);
-                            $('#ID_DEFETError').html(error.responseJSON.errors.ID_DEFET);
-                            $('#ID_GENError').html(error.responseJSON.errors.ID_GEN);
-                            $('#ID_NACIONALIDADError').html(error.responseJSON.errors.ID_NACIONALIDAD);
-                            $('#ID_MOVILHError').html(error.responseJSON.errors.ID_MOVILH);
-                            $('#CARNET_NUM_CONADISError').html(error.responseJSON.errors.CARNET_NUM_CONADIS);
-                            $('#IND_DISCAPACIDADError').html(error.responseJSON.errors.IND_DISCAPACIDAD);
-                            $('#ID_PAISError').html(error.responseJSON.errors.ID_PAIS);
-                            $('#CALLE_PRINCIPALError').html(error.responseJSON.errors.CALLE_PRINCIPAL); // los campos del formulario dben tener el mismo nombre que en la tabla de la BDD porque luego no funcionan las validaciones bien
-                            $('#NUMERO_DOMICILIOError').html(error.responseJSON.errors.NUMERO_DOMICILIO);
-                            $('#CALLE_TRANSVERSALError').html(error.responseJSON.errors.CALLE_TRANSVERSAL);
-                            $('#REFERENCIAError').html(error.responseJSON.errors.REFERENCIA);
-                            $('#direccion2Error').html(error.responseJSON.errors.direccion2);
-                            $('#TELEFONO_CASAError').html(error.responseJSON.errors.TELEFONO_CASA);
-                            $('#TELEFONO_OFICNAError').html(error.responseJSON.errors.TELEFONO_OFICNA);
-                            $('#EXT_TELOFICINAError').html(error.responseJSON.errors.EXT_TELOFICINA);
-                            $('#PLACA_AUTOError').html(error.responseJSON.errors.PLACA_AUTO);
-                            $('#COLOR_AUTOError').html(error.responseJSON.errors.COLOR_AUTO);
-                            $('#MARCA_AUTOError').html(error.responseJSON.errors.MARCA_AUTO);
-                            $('#NUM_STICKERError').html(error.responseJSON.errors.NUM_STICKER);
-                            $('#TELEFONO_CELULARError').html(error.responseJSON.errors.TELEFONO_CELULAR);
-                            $('#TIPOCLIENTEError').html(error.responseJSON.errors.TIPOCLIENTE);
-                            $('#FACULTADError').html(error.responseJSON.errors.FACULTAD);
-                            $('#IDEMPRESAError').html(error.responseJSON.errors.IDEMPRESA);
-                            $('#CARRERA_EPNError').html(error.responseJSON.errors.CARRERA_EPN);
-                            $('#ID_NOMBREFACTURAError').html(error.responseJSON.errors.ID_NOMBREFACTURA);
-                            $('#IDREPError').html(error.responseJSON.errors.IDREP);
-                            $('#ID_PARTICIPANTE_CONYUGEError').html(error.responseJSON.errors.ID_PARTICIPANTE_CONYUGE);
-                            $('#ID_PARTICIPANTE_HERMANOError').html(error.responseJSON.errors.ID_PARTICIPANTE_HERMANO);
-                        }
-                    }
-                });
-      ///////
-      
-       // Revisar errores en la respuesta ajax
-    $(document).ajaxComplete(function(event, xhr, settings) {
-        // Primero limpiamos todos los tabs
-        $('.menu nav-link').removeClass('tab-error').addClass('tab-normal');
-        $('.error-count').remove();
-        
-        if(xhr.status === 422) { // Error de validación
-            // Revisar cada tab
-            Object.entries(camposPorTab).forEach(([tabId, campos]) => {
-                let numErrores = contarErroresTab(campos);
-                
-                if(numErrores > 0) {
-                    let tabLink = $(`a[href="#${tabId}"]`);
-                    // Agregar fondo rojo y contador
-                    tabLink.removeClass('tab-normal').addClass('tab-error');
-                    tabLink.append(
-                        `<span class="error-count" style="color: white; font-size: 12px;"><sub>(${numErrores})</sub></span>`
-                    );
-                }
-            });
-        } else if(xhr.status === 200) {
-            // Si la respuesta es exitosa, volver todos los tabs a azul
-            $('.menu nav-link').removeClass('tab-error').addClass('tab-normal');
-            $('.error-count').remove();
-        }
-    });
-      
-      ///////
 
-            });
+                if(response.success) {
+                    swal("Registro guardado", response.success, "success");
+                }
+                if(response.warning) {
+                    swal("Atención", response.warning, "warning");
+                }
+                tabla_empresa.ajax.reload(null, false);
+            },
+            error: function(error) {
+                $('#saveBtn').attr('disabled', false);
+                $('#saveBtn').html('Guardar');
+
+                if(error.status === 422) {
+                    showErrors(error.responseJSON.errors);
+                    
+                    // Revisar cada tab para errores
+                    Object.entries(camposPorTab).forEach(([tabId, campos]) => {
+                        let numErrores = contarErroresTab(campos);
+                        
+                        if(numErrores > 0) {
+                            let tabLink = $(`a[href="#${tabId}"]`);
+                            tabLink.removeClass('tab-normal').addClass('tab-error');
+                            tabLink.append(
+                                `<span class="error-count" style="color: white; font-size: 12px;">
+                                    <sub>(${numErrores})</sub>
+                                </span>`
+                            );
+                        }
+                    });
+                }
+            }
+        });
+    });
+
+   
 
 </script>
 
