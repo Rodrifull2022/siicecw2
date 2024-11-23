@@ -1516,7 +1516,51 @@ document.addEventListener('DOMContentLoaded', function() {
                 $('#saveBtn').attr('disabled', false);
                 $('#saveBtn').html('Guardar participante');
 
-                // ... resto del código de éxito ...
+                $('#idtipoidentificacion').val('0').trigger('change');
+                            $('#IDENTIFICACION').val('');
+                            $('#NOMBRE_COMPLETO').val('');
+                            $('#TITULOP').val('');
+                            $('#FECHA_NAC').val('');
+                            $('#EDAD').val('');
+                            $('#EMAIL').val('');
+                            $('#ID_DEFET').val('0').trigger('change');
+                            $('#ID_GEN').val('0').trigger('change');
+                            $('#ID_NACIONALIDAD').val('0').trigger('change');
+                            $('#ID_MOVILH').val('0').trigger('change');
+                            $('#discapacidad').prop('checked', false).trigger('change');
+                            $('#CARNET_NUM_CONADIS').val('');
+                            $('#IND_DISCAPACIDAD').val('');
+                            $('#ACEPTACION_DP').prop('checked', false).trigger('change');
+                            $('#OBSERVACIONES').val('');
+                         //Parte RP  PESTAÑAS *DATOS DE UBICACION* , *TIPO CLIENTE* Y *AUTORIZACIONES*
+                            $('#CALLE_PRINCIPAL').val(''); // los campos del formulario dben tener el mismo nombre que en la tabla de la BDD porque luego no funcionan las validaciones bien
+                            $('#NUMERO_DOMICILIO').val('');
+                            $('#CALLE_TRANSVERSAL').val('');
+                            $('#REFERENCIA').val('');
+                            $('#direccion2').val('');
+                            $('#TELEFONO_CASA').val('');
+                            $('#TELEFONO_OFICNA').val('');
+                            $('#EXT_TELOFICINA').val('');
+                            $('#TELEFONO_CELULAR').val('');
+                            $('#TIPOCLIENTE').val('0').trigger('change');
+                            $('#FACULTAD').val('0').trigger('change');
+                            $('#CARRERA_EPN').val('');
+                            $('#REGIMEN_ESTUDIOS_EPN').val('');
+                            $('#HORA_ENTRADA').val('');
+                            $('#HORA_SALIDA').val('');
+                            $('#HORA_ENTRADA_SAB').val('');
+                            $('#HORA_SALIDA_SAB').val('');
+                            $('#PLACA_AUTO').val('');
+                            $('#COLOR_AUTO').val('');
+                            $('#MARCA_AUTO').val('');
+                            $('#NUM_STICKER').val('');
+                            $('#STICKER').val('0').trigger('change');
+                            $('#convenio').val('0').trigger('change');
+                            $('#DESBLOQUEO_TERCERA_MATRICULA').prop('checked', false).trigger('change');
+                            $('#DESBLOQUEO_CONDICION').prop('checked', false).trigger('change');
+                            $('#DESBLOQUEO_DOS_NIVELES').prop('checked', false).trigger('change');
+                            $('#DESBLOQUEO_REAGENDAMIENTO_EXAMEN').prop('checked', false).trigger('change');
+
 
                 if(response.success) {
                     swal("Registro guardado", response.success, "success");
