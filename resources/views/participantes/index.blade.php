@@ -1,6 +1,6 @@
 
 @extends('adminlte::page')
-@section('title', 'Administración de Participantes')
+@section('title', 'Administración de Participantesrr')
 @section('content')
     <div class="container" style="max-width:100%">
 
@@ -402,7 +402,7 @@
 
                     <div class="col-sm-4 invoice-col">
                         <label for="text">Facultad</label>
-                        <select class="form-control" id="FACULTAD" name="FACULTAD">
+                        <select class="form-control" id="FACULTAD" name="FACULTAD" disabled>
                             <option value="0">Escoja la facultad</option>
                             @foreach($facultades as $id => $facultad)
                              <option value="{{ $id }}" {{ old('IDFACULTAD') == $id ? 'selected' : '' }}>{{ $facultad }}</option>
@@ -1259,19 +1259,19 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 <script>
     var element = document.getElementById("#tabsContainer");
-if(element != null){
-	element.style.display = "none";
-}
-function showHide(elementId) {
-	var element = document.getElementById(elementId);
-	if (element != null) {
-		if(element.style.display != "none"){
-			element.style.display = "none";
-		}else{
-			element.style.display = "block";
-		}
-	}
-}
+    if(element != null){
+        element.style.display = "none";
+    }
+    function showHide(elementId) {
+        var element = document.getElementById(elementId);
+        if (element != null) {
+            if(element.style.display != "none"){
+                element.style.display = "none";
+            }else{
+                element.style.display = "block";
+            }
+        }
+    }
 </script>
 <!--Formato de calendario-->
 <script>
@@ -1325,6 +1325,19 @@ const getDatePickerTitle = elem => {
    <!--agregados RP-->
  <script>
 $(document).ready(function() {
+
+    $('#FACULTAD').prop('disabled', true);
+    // Manejar el cambio en el select de TIPOCLIENTE
+    $('#TIPOCLIENTE').change(function() {
+        if ($(this).val() == 2) {
+            // Si la opción seleccionada es 2, habilitar FACULTAD
+            $('#FACULTAD').prop('disabled', false);
+        } else {
+            // De lo contrario, deshabilitar FACULTAD
+            $('#FACULTAD').prop('disabled', true);
+            $('#FACULTAD').val('0'); // Opcional: reiniciar el valor a la opción por defecto
+        }
+    });
 
     function clearErrors() {
         $('.error-messages').text('');

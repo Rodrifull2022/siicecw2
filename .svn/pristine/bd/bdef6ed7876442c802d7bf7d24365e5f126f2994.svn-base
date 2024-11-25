@@ -1,0 +1,603 @@
+<?php $__env->startSection('title', 'Administración de Participantes'); ?>
+<?php $__env->startSection('content'); ?>
+    <div class="container" style="max-width:100%">
+
+        <div class="card">
+            <div class="card-header"><h4>Administración de Personas</h4></div>
+            <div class="row">
+                <div class="col-lg-12 margin-tb" style="padding-left: 30px">
+
+                    <div class="pull-right mb-2" style="padding-top: 25px">
+                        <!--Interfaz Nuevo-->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#idModal">
+                            Nuevo
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <!-- Modal que se activa al dar clic en el botón nuevo -->
+<div class="modal fade" id="idModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ingrese su Cédula o Pasaporte</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="idForm">
+                    <div class="form-group">
+                        <label for="identification">Número de Cédula o Pasaporte</label>
+                        <input type="text" class="form-control" id="identification" required>
+                        <div class="invalid-feedback">
+                            Por favor ingrese un número válido.
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="pasar-texto">Enviar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Tab de opciones (oculto inicialmente) -->
+<div class="container" id="tabsContainer" style="display: none; max-width:100%;font-size:14px">
+    <div class="card card-primary card-tabs">
+          <div class="card-header p-0 pt-1">
+            <ul class="nav nav-tabs" id="custom-tabs-one-tab myTab" role="tablist" >
+              <li class="nav-item"><a class="nav-link active" href="#informacion" data-toggle="tab">Información Personal</a></li>
+              <li class="nav-item"><a class="nav-link" href="#dato_ubicacion" data-toggle="tab">Datos de Ubicación</a></li>
+              <li class="nav-item"><a class="nav-link" href="#tipo_cliente" data-toggle="tab">Tipo de Cliente</a></li>
+              <li class="nav-item"><a class="nav-link" href="#dato_familiar" data-toggle="tab">Datos Familiares</a></li>
+              <li class="nav-item"><a class="nav-link" href="#facturacion" data-toggle="tab">Facturación</a></li>
+              <li class="nav-item"><a class="nav-link" href="#autorizacion" data-toggle="tab">Autorizaciones</a></li>
+            </ul>
+          </div><!-- /.card-header -->
+    <div class="card-body">
+            <div class="tab-content" id="myTabContent">
+              <div class="active tab-pane" id="informacion">
+
+                <form action="#}" method="POST" enctype="multipart/form-data">
+
+
+            <div class="row invoice-info">
+                <!-- Campos del formulario de registro -->
+                    <div class="col-sm-4 invoice-col">
+                        <label for="name">Idparticipante</label>
+                        <input type="text" class="form-control" id="idparticipante" required value="0" disabled>
+                    </div>
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">Tipo</label>
+                        <select class="form-control" id="idtipoidentificacion" name="idtipoidentificacion">
+                            <option value="">Escoja el tipo de identificación</option>
+                            <?php $__currentLoopData = $iden; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $nombre): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <option value="<?php echo e($id); ?>" <?php echo e(old('IDTIPOIDENTIFICACION') == $id ? 'selected' : ''); ?>><?php echo e($nombre); ?></option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                      </select>
+                      <?php $__errorArgs = ['IDTIPOIDENTIFICACION'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+            <div class="text-danger"><?php echo e($message); ?></div>
+        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+
+                    </div>
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">Identificación</label>
+                        <input type="text" class="form-control" id="identificacion" required>
+                    </div>
+
+            </div>
+            <div class="row invoice-info">
+
+                    <div class="col-sm-4 invoice-col" >
+                        <label for="text">Apellidos y Nombres</label>
+                        <input type="text" class="form-control" id="apellido_nombre" required>
+                    </div>
+
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">Título</label>
+                        <input type="text" class="form-control" id="titulo" required>
+                    </div>
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">Fecha Nacimiento</label>
+                        <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4"/>
+                        <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                        </div>
+                    </div>
+            </div>
+
+            <div class="row invoice-info">
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">Edad</label>
+                        <input type="text" class="form-control" id="edad" required>
+                    </div>
+                    <div class="col-sm-4 invoice-col">
+                        <label for="email">Correo Electrónico</label>
+                        <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        <input type="email" class="form-control" id="email" required>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">Auto Definición Étnica</label>
+                        <select class="form-control" id="auto_definicion_etnica" required>
+                            <option value="">Escoja el tipo de AutoDefinicion</option>
+                            <?php $__currentLoopData = $definicion; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $nombre): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <option value="<?php echo e($id); ?>" <?php echo e(old('ID_DEFET') == $id ? 'selected' : ''); ?>><?php echo e($nombre); ?></option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </select>
+                        <?php $__errorArgs = ['ID_DEFET'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+            <div class="text-danger"><?php echo e($message); ?></div>
+        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                    </div>
+
+            </div>
+            <div class="row invoice-info">
+                <div class="col-sm-4 invoice-col">
+                    <label for="text">Género</label>
+                    <select class="form-control" id="genero" required>
+                        <option value="">Escoja el género</option>
+                            <?php $__currentLoopData = $genero; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $nombre): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <option value="<?php echo e($id); ?>" <?php echo e(old('IDGEN') == $id ? 'selected' : ''); ?>><?php echo e($nombre); ?></option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </select>
+                        <?php $__errorArgs = ['IDGEN'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+            <div class="text-danger"><?php echo e($message); ?></div>
+        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                </div>
+
+
+                <div class="col-sm-4 invoice-col">
+                    <label for="text">Nacionalidad</label>
+                    <select class="selectpicker form-control" id="nacionalidad" data-live-search="true" required>
+                        <option value="">Escoja la nacionalidad</option>
+                            <?php $__currentLoopData = $nacionalidad; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $nombre): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <option value="<?php echo e($id); ?>" <?php echo e(old('ID_PAIS') == $id ? 'selected' : ''); ?>><?php echo e($nombre); ?></option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </select>
+                        <?php $__errorArgs = ['ID_PAIS'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+            <div class="text-danger"><?php echo e($message); ?></div>
+        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                </div>
+                <div class="col-sm-4 invoice-col">
+                    <label for="text">Estado Migratorio</label>
+                    <select class="form-control" id="estado" required>
+                        <option value="">Escoja el estado migratorio</option>
+                            <?php $__currentLoopData = $movilidad; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $nombre): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <option value="<?php echo e($id); ?>" <?php echo e(old('ID_MOVILH') == $id ? 'selected' : ''); ?>><?php echo e($nombre); ?></option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </select>
+                        <?php $__errorArgs = ['ID_MOVILH'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+            <div class="text-danger"><?php echo e($message); ?></div>
+        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                </div>
+
+            </div>
+            <div class="row invoice-info">
+                <div class="col-sm-4 invoice-col">
+                    <label for="text">¿Alguna discapacidad?</label>
+
+                    <div class="custom-control custom-switch">
+
+                        <input type="checkbox" class="custom-control-input" id="customSwitch1">
+
+                        <label class="custom-control-label" for="customSwitch1">Si</label>
+                    </div>
+                </div>
+
+
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">#Carnet</label>
+                        <input type="text" class="form-control" id="carnet" required>
+                    </div>
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">%Discapacidad</label>
+                        <input type="text" class="form-control" id="porcentaje_discapacidad" value="0">
+                    </div>
+
+            </div>
+            <div class="row invoice-info">
+                <div class="col-sm-4 invoice-col">
+                    <label for="text">¿Acepta la política de Datos Personales?</label>
+
+                    <div class="custom-control custom-switch">
+
+                        <input type="checkbox" class="custom-control-input" id="customSwitch2">
+
+                        <label class="custom-control-label" for="customSwitch2">Si</label>
+                    </div>
+                </div>
+            <div class="col-sm-4 invoice-col">
+
+                        <label for="text">Observaciones</label>
+                        <input type="text" class="form-control" id="observacion">
+
+            </div>
+            </div>
+              </div>
+
+              <div class="tab-pane" id="dato_ubicacion">
+                <div class="row invoice-info">
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">País</label>
+                        <select class="selectpicker form-control" id="pais" data-live-search="true" required>
+                            <option value="">Escoja un país</option>
+            <?php $__currentLoopData = $paises; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $nombre): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <option value="<?php echo e($id); ?>" <?php echo e(old('ID_PAIS') == $id ? 'selected' : ''); ?>><?php echo e($nombre); ?></option>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </select>
+                        <?php $__errorArgs = ['ID_PAIS'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+            <div class="text-danger"><?php echo e($message); ?></div>
+        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                    </div>
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">Provincia</label>
+                        <input type="text" class="form-control" id="provincia" required>
+                    </div>
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">Ciudad</label>
+                        <input type="text" class="form-control" id="ciudad2" required>
+                    </div>
+
+                </div>
+                <div class="row invoice-info">
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">C.Principal</label>
+                        <input type="text" class="form-control" id="c_principal2" required>
+                    </div>
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">Número</label>
+                        <input type="text" class="form-control" id="numero2" required>
+                    </div>
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">Transversal</label>
+                        <input type="text" class="form-control" id="transversal2" required>
+                    </div>
+
+
+                </div>
+                <div class="row invoice-info">
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">Sector</label>
+                        <input type="text" class="form-control" id="sector2" required>
+                    </div>
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">Dirección</label>
+                        <input type="text" class="form-control" id="direccion2" required>
+                    </div>
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">Telf. Casa</label>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-phone"></i></span>
+
+                            <input type="text" class="form-control" id="telf_casa2">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row invoice-info">
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">Telf. Oficina</label>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-phone"></i></span>
+
+                            <input type="text" class="form-control" id="telf_oficina2">
+                        </div>
+
+                    </div>
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">Extensión</label>
+                        <input type="text" class="form-control" id="extension2" required>
+                    </div>
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">Celular</label>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-phone"></i></span>
+
+                            <input type="text" class="form-control" id="celular2">
+                        </div>
+
+                    </div>
+                </div>
+              </div>
+
+
+              <div class="tab-pane" id="tipo_cliente">
+                <div class="row invoice-info">
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">Tipo de Cliente</label>
+                        <select class="form-control" id="cliente" required>
+                            <option value="">Escoja el tipo de cliente</option>
+                            <?php $__currentLoopData = $tipo; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $nombre): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <option value="<?php echo e($id); ?>" <?php echo e(old('IDTIPOCLIENTE') == $id ? 'selected' : ''); ?>><?php echo e($nombre); ?></option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </select>
+                        <?php $__errorArgs = ['IDTIPOCLIENTE'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+            <div class="text-danger"><?php echo e($message); ?></div>
+        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                    </div>
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">Entrada</label>
+                        <input type="text" class="form-control" id="entrada" required>
+                    </div>
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">Salida</label>
+                        <input type="text" class="form-control" id="salida" required>
+                    </div>
+                </div>
+                    <div class="row invoice-info">
+                        <div class="col-sm-4 invoice-col">
+                            <label for="text">Entrada Sab.</label>
+                            <input type="text" class="form-control" id="entrada_sab" required>
+                        </div>
+                        <div class="col-sm-4 invoice-col">
+                            <label for="text">Sale Sab.</label>
+                            <input type="text" class="form-control" id="sale_sab" required>
+                        </div>
+                        <div class="col-sm-4 invoice-col">
+                            <label for="text">Convenio, Acuerdo asociado al Cliente</label>
+                            <select class="form-control" id="convenio" required>
+                                <option value="">Escoja el convenio</option>
+                            <?php $__currentLoopData = $convenio; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $nombre): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <option value="<?php echo e($id); ?>" <?php echo e(old('ID_CONVENIOS_EXTERNOS') == $id ? 'selected' : ''); ?>><?php echo e($nombre); ?></option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </select>
+                        <?php $__errorArgs = ['ID_CONVENIOS_EXTERNOS'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+            <div class="text-danger"><?php echo e($message); ?></div>
+        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                        </div>
+                    </div>
+              </div>
+
+              <div class="tab-pane" id="dato_familiar">
+                <div class="row invoice-info">
+                    <div class="col-sm-4 invoice-col">
+<!-- Botón para abrir el popup de búsqueda -->
+<button type="button" class="btn btn-link" data-toggle="modal" data-target="#searchModal" style="position: absolute; right: 10px; top: 73%; transform: translateY(-50%);">
+        <i class="fa fa-search"></i>
+    </button>
+
+<!-- Textbox para mostrar el nombre completo -->
+
+ <label for="nombreCompleto">Nombre del Representante</label>
+ <input type="text" class="form-control" id="nombreCompleto">
+
+
+<!-- Incluir el popup de búsqueda -->
+<?php echo $__env->make('participantes.search_popup', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+
+                    </div>
+                    <div class="col-sm-4 invoice-col">
+                         <!-- Botón para abrir el popup de búsqueda -->
+<button type="button" class="btn btn-link" data-toggle="modal" data-target="#searchModal" style="position: absolute; right: 10px; top: 73%; transform: translateY(-50%);">
+<i class="fa fa-search"></i>
+</button>
+
+<!-- Textbox para mostrar el nombre completo -->
+
+<label for="nombreCompleto">Nombre del Conyuge</label>
+<input type="text" class="form-control" id="nombreCompleto">
+
+
+<!-- Incluir el popup de búsqueda -->
+<?php echo $__env->make('participantes.search_popup', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+
+                    </div>
+                    <div class="col-sm-4 invoice-col">
+                         <!-- Botón para abrir el popup de búsqueda -->
+<button type="button" class="btn btn-link" data-toggle="modal" data-target="#searchModal" style="position: absolute; right: 10px; top: 73%; transform: translateY(-50%);">
+<i class="fa fa-search"></i>
+</button>
+
+<!-- Textbox para mostrar el nombre completo -->
+
+<label for="nombreCompleto">Nombre del Hermano</label>
+<input type="text" class="form-control" id="nombreCompleto">
+
+
+<!-- Incluir el popup de búsqueda -->
+<?php echo $__env->make('participantes.search_popup', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                    </div>
+                </div>
+              </div>
+              <div class="tab-pane" id="facturacion">
+                <div class="row invoice-info">
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">Factura a nombre de:</label>
+                        <select class="form-control" id="factura" required>
+                            <option>Particular</option>
+                            <option>Estudiante EPN</option>
+                            <option>Representante</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">Beneficiario Factura</label>
+                        <input type="text" class="form-control" id="beneficiario" required>
+                    </div>
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">Empresa Unipersonal</label>
+                        <div class="custom-control custom-switch">
+
+                            <input type="checkbox" class="custom-control-input" id="customSwitch7">
+
+                            <label class="custom-control-label" for="customSwitch7">Si</label>
+                        </div>
+                    </div>
+                </div>
+              </div>
+              <div class="tab-pane" id="autorizacion">
+                <div class="row invoice-info">
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">Autorizado tercera matrícula</label>
+
+                        <div class="custom-control custom-switch">
+
+                            <input type="checkbox" class="custom-control-input" id="customSwitch3">
+
+                            <label class="custom-control-label" for="customSwitch3">Si</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">Autorizado tomar condición</label>
+
+                        <div class="custom-control custom-switch">
+
+                            <input type="checkbox" class="custom-control-input" id="customSwitch4">
+
+                            <label class="custom-control-label" for="customSwitch4">Si</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">Autorizado tomar 2 niveles </label>
+
+                        <div class="custom-control custom-switch">
+
+                            <input type="checkbox" class="custom-control-input" id="customSwitch5">
+
+                            <label class="custom-control-label" for="customSwitch5">Si</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 invoice-col">
+                        <label for="text">Autorizado reagendar examen</label>
+
+                        <div class="custom-control custom-switch">
+
+                            <input type="checkbox" class="custom-control-input" id="customSwitch6">
+
+                            <label class="custom-control-label" for="customSwitch6">Si</label>
+                        </div>
+                    </div>
+
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <div  style="padding:15px;float:right">
+            <button type="submit" class="btn btn-primary">Guardar Todo</button>
+            <button type="submit" id="cancelar"class="btn btn-danger" style="margin-left:10px" onclick="showHide('tabsContainer')">Cancelar</button>
+            </div>
+        </form>
+</div>
+            <div class="card-body">
+                <?php echo e($dataTable->table()); ?>
+
+            </div>
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startPush('scripts'); ?>
+    <?php echo e($dataTable->scripts(attributes: ['type' => 'module'])); ?>
+
+<?php $__env->stopPush(); ?>
+
+<?php $__env->startSection('js'); ?>
+<!--Validación de cedula no se encuentre vacia-->
+<script>
+    $(document).ready(function() {
+        $('#idForm').on('submit', function(event) {
+            event.preventDefault();
+            var identification = $('#identification').val();
+            if (identification) {
+                $('#tabsContainer').show();
+            } else {
+                $('#identification').addClass('is-invalid');
+            }
+        });
+    });
+</script>
+<script>
+    var element = document.getElementById("#tabsContainer");
+if(element != null){
+	element.style.display = "none";
+}
+function showHide(elementId) {
+	var element = document.getElementById(elementId);
+	if (element != null) {
+		if(element.style.display != "none"){
+			element.style.display = "none";
+		}else{
+			element.style.display = "block";
+		}
+	}
+}
+</script>
+<!--Formato de calendario-->
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepicker4').datetimepicker({
+            format: 'L'
+        });
+    });
+</script>
+<script>
+    document.getElementById('pasar-texto').addEventListener('click', function() {
+        let textoOrigen = document.getElementById('identification').value;
+        document.getElementById('identificacion').value = textoOrigen;
+    });
+    </script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('adminlte::page', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Laravel_projects\kuartamv4\resources\views/participantes/index.blade.php ENDPATH**/ ?>

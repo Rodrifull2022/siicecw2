@@ -1,0 +1,495 @@
+<?php $__env->startSection('title', 'Editar información de la persona'); ?>
+
+<?php $__env->startSection('content_header'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+
+<!-- Content Wrapper. Contains page content -->
+<div class="container" style="max-width:100%">
+    <div class="card">
+        <div class="card-header"><h4>Editar persona</h4></div>
+    <div class="row" style="margin-left:1px">
+        <div class="pull-right mb-2" style="padding-top: 25px; padding-bottom:15px">
+        <a class="btn btn-primary" href="<?php echo e(route('participantes.index')); ?>" enctype="multipart/form-data"> Regresar</a>
+        </div>
+    </div>
+    <div id="tabsContainer2" style="font-size:14px" >
+    <div class="card card-primary card-tabs" >
+            <div class="card-header p-0 pt-1">
+              <ul class="nav nav-tabs" id="custom-tabs-one-tab myTab2" role="tablist" >
+                <li class="nav-item"><a class="nav-link active" href="#informacion2" data-toggle="tab">Información Personal</a></li>
+                <li class="nav-item"><a class="nav-link" href="#dato_ubicacion2" data-toggle="tab">Datos de Ubicación</a></li>
+                <li class="nav-item"><a class="nav-link" href="#tipo_cliente2" data-toggle="tab">Tipo de Cliente</a></li>
+                <li class="nav-item"><a class="nav-link" href="#dato_familiar2" data-toggle="tab">Datos Familiares</a></li>
+                <li class="nav-item"><a class="nav-link" href="#facturacion2" data-toggle="tab">Facturación</a></li>
+                <li class="nav-item"><a class="nav-link" href="#autorizacion2" data-toggle="tab">Autorizaciones</a></li>
+              </ul>
+            </div><!-- /.card-header -->
+      <div class="card-body">
+              <div class="tab-content" id="myTabContent2">
+                <div class="active tab-pane" id="informacion2">
+                    <form action="<?php echo e(route('participantes.update',$participante->IDPARTICIPANTE)); ?>" method="POST" enctype="multipart/form-data">
+
+              <div class="row invoice-info">
+                  <!-- Campos del formulario de registro -->
+                      <div class="col-sm-4 invoice-col">
+                          <label for="name">Idparticipante</label>
+                          <input type="text" class="form-control" value="<?php echo e($participante->IDPARTICIPANTE); ?>"
+                          id="idparticipante2" required value="0" disabled>
+                      </div>
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">Tipo</label>
+                          <select class="form-control" id="idtipoidentificacion" name="idtipoidentificacion">
+                            <?php $__currentLoopData = $iden; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option value="<?php echo e($p->IDTIPOIDENTIFICACION); ?>" <?php echo e($p->IDTIPOIDENTIFICACION == $participante->IDTIPOIDENTIFICACION ? 'selected' : ''); ?>>
+                        <?php echo e($p->NOMBRETIPO); ?>
+
+                    </option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </select>
+                      </div>
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">Identificación</label>
+                          <input type="text" class="form-control" value="<?php echo e($participante->IDENTIFICACION); ?>" id="identificacion2" required>
+                      </div>
+
+              </div>
+              <div class="row invoice-info">
+
+                      <div class="col-sm-4 invoice-col" >
+                          <label for="text">Apellidos y Nombres</label>
+                          <input type="text" class="form-control" value="<?php echo e($participante->NOMBRE_COMPLETO); ?>" id="apellido_nombre2" required>
+                      </div>
+
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">Título</label>
+                          <input type="text" class="form-control" id="titulo2" value="<?php echo e($participante->TITULOP); ?>" required>
+                      </div>
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">Fecha Nacimiento</label>
+                          <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+                          <input type="text" value="<?php echo e($participante->FECHA_NAC); ?>" class="form-control datetimepicker-input" data-target="#datetimepicker4"/>
+                          <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                          </div>
+                          </div>
+                      </div>
+              </div>
+
+              <div class="row invoice-info">
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">Edad</label>
+                          <input type="text" class="form-control" value="<?php echo e($participante->EDAD); ?>" id="edad2" required>
+                      </div>
+                      <div class="col-sm-4 invoice-col">
+                          <label for="email">Correo Electrónico</label>
+                          <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                          <input type="email" class="form-control" value="<?php echo e($participante->EMAIL); ?>"id="email2" required>
+                          </div>
+                      </div>
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">Auto Definición Étnica</label>
+                          <select class="form-control" id="auto_definicion_etnica2" name="auto_definicion_etnica2">
+                            <?php $__currentLoopData = $definicion; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option value="<?php echo e($p->ID_DEFET); ?>" <?php echo e($p->ID_DEFET == $participante->ID_DEFET ? 'selected' : ''); ?>>
+                        <?php echo e($p->DESC_DEFET); ?>
+
+                    </option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                          </select>
+                      </div>
+
+              </div>
+              <div class="row invoice-info">
+                  <div class="col-sm-4 invoice-col">
+                      <label for="text">Género</label>
+                     <select class="form-control" id="genero" name="genero">
+                     <?php $__currentLoopData = $genero; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option value="<?php echo e($p->IDGEN); ?>" <?php echo e($p->IDGEN == $participante->ID_GEN ? 'selected' : ''); ?>>
+                        <?php echo e($p->DES_GEN); ?>
+
+                    </option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                     </select>
+                  </div>
+
+
+
+                  <div class="col-sm-4 invoice-col">
+                      <label for="text">Nacionalidad</label>
+                          <select class="form-control" id="nacionalidad" name="nacionalidad">
+                            <?php $__currentLoopData = $nacionalidad; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option value="<?php echo e($p->ID_PAIS); ?>" <?php echo e($p->ID_PAIS == $participante->ID_NACIONALIDAD ? 'selected' : ''); ?>>
+                        <?php echo e($p->NACIONALIDAD); ?>
+
+                    </option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </select>
+                  </div>
+                  <div class="col-sm-4 invoice-col">
+                      <label for="text">Estado Migratorio</label>
+
+                          <select class="form-control" id="movilidad" name="movilidad">
+                            <?php $__currentLoopData = $movilidad; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option value="<?php echo e($p->ID_MOVILH); ?>" <?php echo e($p->ID_MOVILH == $participante->ID_MOVILH ? 'selected' : ''); ?>>
+                        <?php echo e($p->DESC_MOVILH); ?>
+
+                    </option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </select>
+                  </div>
+
+              </div>
+              <div class="row invoice-info">
+                  <div class="col-sm-4 invoice-col">
+                      <label for="text">¿Alguna discapacidad?</label>
+
+                      <div class="custom-control custom-switch">
+
+                          <input type="checkbox" class="custom-control-input" id="customSwitch2">
+
+                          <label class="custom-control-label" for="customSwitch2">Si</label>
+                      </div>
+                  </div>
+
+
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">#Carnet</label>
+                          <input type="text" class="form-control" id="carnet2" value="<?php echo e($participante->CARNET_NUM_CONADIS); ?>" required>
+                      </div>
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">%Discapacidad</label>
+                          <input type="text" class="form-control" id="porcentaje_discapacidad2" value="<?php echo e($participante->IND_DISCAPACIDAD); ?>" >
+                      </div>
+
+              </div>
+              <div class="row invoice-info">
+                  <div class="col-sm-4 invoice-col">
+                      <label for="text">¿Acepta la política de Datos Personales?</label>
+
+                      <div class="custom-control custom-switch">
+
+                          <input type="checkbox" class="custom-control-input" id="customSwitch3">
+
+                          <label class="custom-control-label" for="customSwitch3">Si</label>
+                      </div>
+                  </div>
+              <div class="col-sm-4 invoice-col">
+
+                          <label for="text">Observaciones</label>
+                          <input type="text" class="form-control" id="observacion2">
+
+              </div>
+              </div>
+
+
+
+
+                </div>
+
+                <div class="tab-pane" id="dato_ubicacion2">
+                  <div class="row invoice-info">
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">País</label>
+                          <select class="form-control" id="PAIS" name="PAIS">
+                            <?php $__currentLoopData = $pais; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option value="<?php echo e($p->ID_PAIS); ?>" <?php echo e($p->ID_PAIS == $participante->ID_PAIS ? 'selected' : ''); ?>>
+                        <?php echo e($p->NOMBRE_PAIS); ?>
+
+                    </option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </select>
+                      </div>
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">Provincia</label>
+                          <input type="text" class="form-control" value="<?php echo e($participante->PROVINCIA); ?>" id="provincia2" required>
+                      </div>
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">Ciudad</label>
+                          <input type="text" class="form-control" id="ciudad2" value="<?php echo e($participante->CIUDAD); ?>" required>
+                      </div>
+
+                  </div>
+                  <div class="row invoice-info">
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">C.Principal</label>
+                          <input type="text" class="form-control" value="<?php echo e($participante->CALLE_PRINCIPAL); ?>" id="c_principal2" required>
+                      </div>
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">Número</label>
+                          <input type="text" class="form-control" value="<?php echo e($participante->NUMERO_DOMICILIO); ?>" id="numero2" required>
+                      </div>
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">Transversal</label>
+                          <input type="text" class="form-control" value="<?php echo e($participante->CALLE_TRANSVERSAL); ?>" id="transversal2" required>
+                      </div>
+
+
+                  </div>
+                  <div class="row invoice-info">
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">Sector</label>
+                          <input type="text" class="form-control" value="<?php echo e($participante->REFERENCIA); ?>" id="sector2" required>
+                      </div>
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">Dirección</label>
+                          <input type="text" class="form-control" value="<?php echo e($participante->DIRECCION); ?>" id="direccion2" required>
+                      </div>
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">Telf. Casa</label>
+                          <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-phone"></i></span>
+
+                              <input type="text" class="form-control" value="<?php echo e($participante->TELEFONO_CASA); ?>" id="telf_casa2">
+                          </div>
+
+                      </div>
+                  </div>
+                  <div class="row invoice-info">
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">Telf. Oficina</label>
+                          <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-phone"></i></span>
+
+                              <input type="text" class="form-control" value="<?php echo e($participante->TELEFONO_OFICNA); ?>" id="telf_oficina2">
+                          </div>
+
+                      </div>
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">Extensión</label>
+                          <input type="text" class="form-control" value="<?php echo e($participante->EXT_TELOFICINA); ?>" id="extension2" required>
+                      </div>
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">Celular</label>
+                          <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-phone"></i></span>
+
+                              <input type="text" class="form-control" value="<?php echo e($participante->TELEFONO_CELULAR); ?>" id="celular2">
+                          </div>
+
+                      </div>
+                  </div>
+
+                </div>
+
+
+                <div class="tab-pane" id="tipo_cliente2">
+                  <div class="row invoice-info">
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">Tipo de Cliente</label>
+                          <select class="form-control" id="tipo" name="id_tipo">
+                            <?php $__currentLoopData = $tipo; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option value="<?php echo e($p->IDTIPOCLIENTE); ?>" <?php echo e($p->IDTIPOCLIENTE == $participante->TIPOCLIENTE ? 'selected' : ''); ?>>
+                        <?php echo e($p->NOMBRE); ?>
+
+                    </option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </select>
+                      </div>
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">Entrada</label>
+                          <input type="text" class="form-control" value="<?php echo e($participante->HORA_ENTRADA); ?>" id="entrada2" required>
+                      </div>
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">Salida</label>
+                          <input type="text" class="form-control" value="<?php echo e($participante->HORA_SALIDA); ?>" id="salida2" required>
+                      </div>
+                  </div>
+                      <div class="row invoice-info">
+                          <div class="col-sm-4 invoice-col">
+                              <label for="text">Entrada Sab.</label>
+                              <input type="text" class="form-control" value="<?php echo e($participante->HORA_ENTRADA_SAB); ?>" id="entrada_sab2" required>
+                          </div>
+                          <div class="col-sm-4 invoice-col">
+                              <label for="text">Sale Sab.</label>
+                              <input type="text" class="form-control" value="<?php echo e($participante->HORA_SALIDA_SAB); ?>" id="sale_sab2" required>
+                          </div>
+                          <div class="col-sm-4 invoice-col">
+                              <label for="text">Convenio, Acuerdo asociado al Cliente</label>
+                              <select class="form-control" id="cliente" name="cliente">
+                                <?php $__currentLoopData = $convenio; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option value="<?php echo e($p->ID_CONVENIOS_EXTERNOS); ?>" <?php echo e($p->ID_CONVENIOS_EXTERNOS == $participante->ID_CONVENIO_EXTERNO ? 'selected' : ''); ?>>
+                        <?php echo e($p->INSTITUCION); ?>
+
+                    </option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </select>
+                          </div>
+                      </div>
+
+                </div>
+
+                <div class="tab-pane" id="dato_familiar2">
+                  <div class="row invoice-info">
+                      <div class="col-sm-4 invoice-col">
+
+                          <label for="text">Representante Madre/Padre/Estudiante</label>
+                          <input type="text" class="form-control" value="<?php echo e($participante->nombre_representante); ?>" id="representantet" required>
+                      </br>
+                          <select class="selectpicker form-control" name="representante" id="representantes" data-live-search="true">
+                          <option>Escoja al representante</option>
+                            <?php $__currentLoopData = $busqueda; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <option value="<?php echo e($p->IDPARTICIPANTE); ?>">
+                                <?php echo e($p->IDENTIFICACION); ?> <?php echo e($p->NOMBRE_COMPLETO); ?>
+
+                            </option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </select>
+                      </div>
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">Conyuge</label>
+                          <input type="text" class="form-control" value="<?php echo e($participante->nombre_conyuge); ?>" id="conyuge">
+
+                        </br>
+                          <select class="selectpicker form-control" name="conyuge" id="conyuge" data-live-search="true">
+                            <option value="selected">Escoja al conyuge</option>
+                            <?php $__currentLoopData = $busqueda; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <option value="<?php echo e($p->IDPARTICIPANTE); ?>">
+                                <?php echo e($p->IDENTIFICACION); ?> <?php echo e($p->NOMBRE_COMPLETO); ?>
+
+                            </option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </select>
+
+                      </div>
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">Hermano</label>
+                          <input type="text" class="form-control" value="<?php echo e($participante->nombre_hermano); ?>" id="hermano">
+
+                      </br>
+                          <select class="selectpicker form-control" name="hermano" id="hermano" data-live-search="true">
+                            <option value="selected">Escoja al hermano</option>
+                              <?php $__currentLoopData = $busqueda; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <option value="<?php echo e($p->IDPARTICIPANTE); ?>">
+                                <?php echo e($p->IDENTIFICACION); ?> <?php echo e($p->NOMBRE_COMPLETO); ?>
+
+                            </option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </select>
+                      </div>
+                  </div>
+
+                </div>
+                <div class="tab-pane" id="facturacion2">
+                  <div class="row invoice-info">
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">Factura a nombre de:</label>
+                          <select class="form-control" id="factura" required>
+                              <option>Particular</option>
+                              <option>Estudiante EPN</option>
+                              <option>Representante</option>
+                          </select>
+                      </div>
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">Beneficiario Factura</label>
+                          <input type="text" class="form-control" id="beneficiario" required>
+                      </div>
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">Empresa Unipersonal</label>
+                          <div class="custom-control custom-switch">
+
+                              <input type="checkbox" class="custom-control-input" id="customSwitch7">
+
+                              <label class="custom-control-label" for="customSwitch7">Si</label>
+                          </div>
+                      </div>
+                  </div>
+
+                </div>
+                <div class="tab-pane" id="autorizacion2">
+                  <div class="row invoice-info">
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">Autorizado tercera matrícula</label>
+
+                          <div class="custom-control custom-switch">
+
+                              <input type="checkbox" class="custom-control-input" id="customSwitch3">
+
+                              <label class="custom-control-label" for="customSwitch3">Si</label>
+                          </div>
+                      </div>
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">Autorizado tomar condición</label>
+
+                          <div class="custom-control custom-switch">
+
+                              <input type="checkbox" class="custom-control-input" id="customSwitch4">
+
+                              <label class="custom-control-label" for="customSwitch4">Si</label>
+                          </div>
+                      </div>
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">Autorizado tomar 2 niveles </label>
+
+                          <div class="custom-control custom-switch">
+
+                              <input type="checkbox" class="custom-control-input" id="customSwitch5">
+
+                              <label class="custom-control-label" for="customSwitch5">Si</label>
+                          </div>
+                      </div>
+                      <div class="col-sm-4 invoice-col">
+                          <label for="text">Autorizado reagendar examen</label>
+
+                          <div class="custom-control custom-switch">
+
+                              <input type="checkbox" class="custom-control-input" id="customSwitch6">
+
+                              <label class="custom-control-label" for="customSwitch6">Si</label>
+                          </div>
+                      </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+          <div class="row" style="padding:15px;float:right">
+              <button type="submit" class="btn btn-primary">Guardar Todo</button>
+              </div>
+          </form>
+
+    </div>
+    </div>
+</div>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('css'); ?>
+    <link rel="stylesheet" href="/css/admin_custom.css">
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
+<!--Formato de calendario-->
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepicker4').datetimepicker({
+            viewMode: 'years',
+              format: 'dd/MM/YYYY'
+        });
+    });
+</script>
+<!--Formato para select-->
+<script>
+    $(document).ready(function() {
+    $('.js-example-basic-single').select2();
+});
+</script>
+<script type="text/javascript">
+   $(document).ready(function() {
+    // Escuchar el evento de cambio en el select
+    $('#representantes').change(function() {
+        // Obtener el valor seleccionado
+        var valorSeleccionado = $(this).val();
+        // Asignar el valor al textbox
+        $('#representantet').val(valorSeleccionado);
+    });
+});
+    </script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('adminlte::page', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Laravel_projects\kuartamv4\resources\views/participantes/edit.blade.php ENDPATH**/ ?>
